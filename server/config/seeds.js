@@ -23,7 +23,7 @@ db.once('open', async () => {
       name: 'Cats House',
       description:
         'Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.',
-      image: 'cookie-tin.jpg',
+      image: 'cats.png',
       category: categories[0]._id,
       price: 250,
       quantity: 1
