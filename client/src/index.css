@@ -207,6 +207,10 @@ input:focus {
   max-height: 36px;
 }
 
+.category-button {
+  min-width: 100px;
+}
+
 @media screen and (max-width: 768px) {
   .card {
     width: 100%;

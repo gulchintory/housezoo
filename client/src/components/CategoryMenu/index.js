@@ -41,11 +41,28 @@ function CategoryMenu() {
     });
   };
 
+  const showAll = () => {
+    dispatch({
+      type: UPDATE_CURRENT_CATEGORY,
+      currentCategory: '',
+    });
+  }
+
   return (
     <div>
-      <h2>Choose a Category:</h2>
+      <h2>Find By Pet Type</h2>
+      <button
+        className='category-button'
+          key={'btnAllCatergories'}
+          onClick={() => {
+            showAll();
+          }}
+        >
+          All
+        </button>
       {categories.map((item) => (
         <button
+        className='category-button'
           key={item._id}
           onClick={() => {
             handleClick(item._id);
@@ -54,6 +71,7 @@ function CategoryMenu() {
           {item.name}
         </button>
       ))}
+      
     </div>
   );
 }
