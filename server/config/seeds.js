@@ -22,45 +22,45 @@ db.once('open', async () => {
     {
       name: 'Cats House',
       description:
-        'Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.',
+        'You can pet cats in this house.',
       image: 'cats.png',
       category: categories[0]._id,
       price: 250,
-      quantity: 1
+      quantity: 11
     },
     {
       name: 'Dogs House',
       description:
-        'Praesent sed lacinia mauris. Nulla congue nibh magna, at feugiat nunc scelerisque quis. Donec iaculis rutrum vulputate. Suspendisse lectus sem, vulputate ac lectus sed, placerat consequat dui.',
-      image: 'canned-coffee.jpg',
+        'You can pet dogs in this house.',
+      image: 'dogs.png',
       category: categories[1]._id,
       price: 250,
-      quantity: 1
+      quantity: 12
     },
     {
       name: 'Birds House',
       category: categories[2]._id,
       description:
-        'Donec volutpat erat erat, sit amet gravida justo sodales in. Phasellus tempus euismod urna. Proin ultrices nisi ut ipsum congue, vitae porttitor libero suscipit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam lacinia a nisi non congue.',
-      image: 'toilet-paper.jpg',
+        'You can pet birds in this house.',
+      image: 'birds.png',
       price: 200,
-      quantity: 1
+      quantity: 18
     },
     {
       name: 'Reptiles House',
       category: categories[3]._id,
       description:
-        'Praesent placerat, odio vel euismod venenatis, lectus arcu laoreet felis, et fringilla sapien turpis vestibulum nisl.',
-      image: 'soap.jpg',
+        'You can reptiles dogs in this house.',
+      image: 'reptiles.png',
       price: 500,
-      quantity: 1
+      quantity: 5
     },
     {
       name: 'Ginepigs House',
       category: categories[4]._id,
       description:
-        'Vivamus ut turpis in purus pretium mollis. Donec turpis odio, semper vel interdum ut, vulputate at ex. Duis dignissim nisi vel tortor imperdiet finibus. Aenean aliquam sagittis rutrum.',
-      image: 'wooden-spoons.jpg',
+        'You can pet ginepigs in this house.',
+      image: 'ginepigs.png',
       price: 120,
       quantity: 1
     },
@@ -68,8 +68,8 @@ db.once('open', async () => {
       name: 'Bunnies House',
       category: categories[5]._id,
       description:
-        'Vestibulum risus metus, luctus non tortor quis, tincidunt consectetur ex. Nullam vitae lobortis ligula, ut sagittis massa. Curabitur consectetur, tellus at pulvinar venenatis, erat augue cursus erat, eu ullamcorper eros lectus ultrices ipsum. Integer rutrum, augue vitae auctor venenatis, turpis turpis elementum orci, at sagittis risus mi a leo.',
-      image: 'camera.jpg',
+        'You can pet bunnies in this house.',
+      image: 'bunnies.png',
       price: 100,
       quantity: 1
     },
@@ -77,10 +77,10 @@ db.once('open', async () => {
       name: 'Others House',
       category: categories[6]._id,
       description:
-        'In sodales, ipsum quis ultricies porttitor, tellus urna aliquam arcu, eget venenatis purus ligula ut nisi. Fusce ut felis dolor. Mauris justo ante, aliquet non tempus in, tempus ac lorem. Aliquam lacinia dolor eu sem eleifend ultrices. Etiam mattis metus metus. Sed ligula dui, placerat non turpis vitae, suscipit volutpat elit. Phasellus sagittis, diam elementum suscipit fringilla, libero mauris scelerisque ex, ac interdum diam erat non sapien.',
-      image: 'tablet.jpg',
+        'Check for other animaals.',
+      image: 'others.png',
       price: 400,
-      quantity: 1
+      quantity: 12
     }
   ]);
 
