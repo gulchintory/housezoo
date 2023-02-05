@@ -1,10 +1,10 @@
 const db = require('./connection');
-const { User, Product, Category } = require('../models');
+const { User, Pet, PetType } = require('../models');
 
 db.once('open', async () => {
-  await Category.deleteMany();
+  await PetType.deleteMany();
 
-  const categories = await Category.insertMany([
+  const petTypes = await PetType.insertMany([
     { name: 'Cats' },
     { name: 'Dogs' },
     { name: 'Birds' },
@@ -14,17 +14,17 @@ db.once('open', async () => {
     { name: 'Others' },
   ]);
 
-  console.log('categories seeded');
+  console.log('petTypes are seeded');
 
-  await Product.deleteMany();
+  await Pet.deleteMany();
 
-  const products = await Product.insertMany([
+  const pets = await Pet.insertMany([
     {
       name: 'Cats House',
       description:
         'You can pet cats in this house.',
       image: 'cats.png',
-      category: categories[0]._id,
+      petType: petTypes[0]._id,
       price: 250,
       quantity: 11
     },
@@ -33,13 +33,13 @@ db.once('open', async () => {
       description:
         'You can pet dogs in this house.',
       image: 'dogs.png',
-      category: categories[1]._id,
+      petType: petTypes[1]._id,
       price: 250,
       quantity: 12
     },
     {
       name: 'Birds House',
-      category: categories[2]._id,
+      petType: petTypes[2]._id,
       description:
         'You can pet birds in this house.',
       image: 'birds.png',
@@ -48,7 +48,7 @@ db.once('open', async () => {
     },
     {
       name: 'Reptiles House',
-      category: categories[3]._id,
+      petType: petTypes[3]._id,
       description:
         'You can reptiles dogs in this house.',
       image: 'reptiles.png',
@@ -57,7 +57,7 @@ db.once('open', async () => {
     },
     {
       name: 'Ginepigs House',
-      category: categories[4]._id,
+      petType: petTypes[4]._id,
       description:
         'You can pet ginepigs in this house.',
       image: 'ginepigs.png',
@@ -66,7 +66,7 @@ db.once('open', async () => {
     },
     {
       name: 'Bunnies House',
-      category: categories[5]._id,
+      petType: petTypes[5]._id,
       description:
         'You can pet bunnies in this house.',
       image: 'bunnies.png',
@@ -75,7 +75,7 @@ db.once('open', async () => {
     },
     {
       name: 'Others House',
-      category: categories[6]._id,
+      petType: petTypes[6]._id,
       description:
         'Check for other animaals.',
       image: 'others.png',
@@ -84,18 +84,18 @@ db.once('open', async () => {
     }
   ]);
 
-  console.log('products seeded');
+  console.log('pets are seeded');
 
   await User.deleteMany();
 
   await User.create({
     firstName: 'Gulcin',
     lastName: 'Koca',
-    email: 'gulcin@testmail.com',
-    password: 'password12345',
-    orders: [
+    email: 'gulcin@gmail.com',
+    password: 'pass12345678',
+    bookings: [
       {
-        products: [products[0]._id, products[0]._id, products[1]._id]
+        pets: [pets[0]._id, pets[0]._id, pets[1]._id]
       }
     ]
   });
@@ -103,11 +103,18 @@ db.once('open', async () => {
   await User.create({
     firstName: 'Masal',
     lastName: 'Koca',
-    email: 'masal@testmail.com',
-    password: 'password12345'
+    email: 'masal@gmail.com',
+    password: 'pass12345678'
   });
 
-  console.log('users seeded');
+  await User.create({
+    firstName: 'Masal2',
+    lastName: 'Koca2',
+    email: 'masal2@gmail.com',
+    password: 'pass12345678'
+  });
+
+  console.log('users are seeded');
 
   process.exit();
 });

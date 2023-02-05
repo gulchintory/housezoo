@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const productSchema = new Schema({
+const petSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -24,13 +24,13 @@ const productSchema = new Schema({
     min: 0,
     default: 0
   },
-  category: {
+  petType: {
     type: Schema.Types.ObjectId,
-    ref: 'Category',
+    ref: 'PetType',
     required: true
   }
 });
 
-const Product = mongoose.model('Product', productSchema);
+const Pet = mongoose.model('Pet', petSchema);
 
-module.exports = Product;
+module.exports = Pet;

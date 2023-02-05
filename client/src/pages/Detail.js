@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 
-import Cart from '../components/Cart';
+import Booked from '../components/Booked';
 import { useStoreContext } from '../utils/GlobalState';
 import {
-  REMOVE_FROM_CART,
-  UPDATE_CART_QUANTITY,
-  ADD_TO_CART,
-  UPDATE_PRODUCTS,
+  REMOVE_FROM_BOOKED,
+  UPDATE_BOOKED_QUANTITY,
+  ADD_TO_BOOKED,
+  UPDATE_PETS,
 } from '../utils/actions';
-import { QUERY_PRODUCTS } from '../utils/queries';
+import { QUERY_PETS } from '../utils/queries';
 import { idbPromise } from '../utils/helpers';
 import spinner from '../assets/spinner.gif';
 
@@ -18,98 +18,98 @@ function Detail() {
   const [state, dispatch] = useStoreContext();
   const { id } = useParams();
 
-  const [currentProduct, setCurrentProduct] = useState({});
+  const [currentPet, setCurrentPet] = useState({});
 
-  const { loading, data } = useQuery(QUERY_PRODUCTS);
+  const { loading, data } = useQuery(QUERY_PETS);
 
-  const { products, cart } = state;
+  const { pets, booked } = state;
 
   useEffect(() => {
     // already in global store
-    if (products.length) {
-      setCurrentProduct(products.find((product) => product._id === id));
+    if (pets.length) {
+      setCurrentPet(pets.find((pet) => pet._id === id));
     }
     // retrieved from server
     else if (data) {
       dispatch({
-        type: UPDATE_PRODUCTS,
-        products: data.products,
+        type: UPDATE_PETS,
+        pets: data.pets,
       });
 
-      data.products.forEach((product) => {
-        idbPromise('products', 'put', product);
+      data.pets.forEach((pet) => {
+        idbPromise('pets', 'put', pet);
       });
     }
     // get cache from idb
     else if (!loading) {
-      idbPromise('products', 'get').then((indexedProducts) => {
+      idbPromise('pets', 'get').then((indexedPets) => {
         dispatch({
-          type: UPDATE_PRODUCTS,
-          products: indexedProducts,
+          type: UPDATE_PETS,
+          pets: indexedPets,
         });
       });
     }
-  }, [products, data, loading, dispatch, id]);
+  }, [pets, data, loading, dispatch, id]);
 
-  const addToCart = () => {
-    const itemInCart = cart.find((cartItem) => cartItem._id === id);
-    if (itemInCart) {
+  const addToBooked = () => {
+    const itemInBooked = booked.find((bookedItem) => bookedItem._id === id);
+    if (itemInBooked) {
       dispatch({
-        type: UPDATE_CART_QUANTITY,
+        type: UPDATE_BOOKED_QUANTITY,
         _id: id,
-        purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
+        bookQuantity: parseInt(itemInBooked.bookQuantity) + 1,
       });
-      idbPromise('cart', 'put', {
-        ...itemInCart,
-        purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
+      idbPromise('booked', 'put', {
+        ...itemInBooked,
+        bookQuantity: parseInt(itemInBooked.bookQuantity) + 1,
       });
     } else {
       dispatch({
-        type: ADD_TO_CART,
-        product: { ...currentProduct, purchaseQuantity: 1 },
+        type: ADD_TO_BOOKED,
+        pet: { ...currentPet, bookQuantity: 1 },
       });
-      idbPromise('cart', 'put', { ...currentProduct, purchaseQuantity: 1 });
+      idbPromise('booked', 'put', { ...currentPet, bookQuantity: 1 });
     }
   };
 
-  const removeFromCart = () => {
+  const removeFromBooked = () => {
     dispatch({
-      type: REMOVE_FROM_CART,
-      _id: currentProduct._id,
+      type: REMOVE_FROM_BOOKED,
+      _id: currentPet._id,
     });
 
-    idbPromise('cart', 'delete', { ...currentProduct });
+    idbPromise('booked', 'delete', { ...currentPet });
   };
 
   return (
     <>
-      {currentProduct && cart ? (
+      {currentPet && booked ? (
         <div className="container my-1">
-          <Link to="/">← Back to Products</Link>
+          <Link to="/">← Back to Pets</Link>
 
-          <h2>{currentProduct.name}</h2>
+          <h2>{currentPet.name}</h2>
 
-          <p>{currentProduct.description}</p>
+          <p>{currentPet.description}</p>
 
           <p>
-            <strong>Price:</strong>${currentProduct.price}{' '}
-            <button onClick={addToCart}>🐕  Get a ticket</button>
+            <strong>Price:</strong>${currentPet.price}{' '}
+            <button onClick={addToBooked}>🐕  Get a ticket</button>
             <button
-              disabled={!cart.find((p) => p._id === currentProduct._id)}
-              onClick={removeFromCart}
+              disabled={!booked.find((p) => p._id === currentPet._id)}
+              onClick={removeFromBooked}
             >
-              Remove from Cart
+              Remove from Booked
             </button>
           </p>
 
           <img
-            src={`/images/${currentProduct.image}`}
-            alt={currentProduct.name}
+            src={`/images/${currentPet.image}`}
+            alt={currentPet.name}
           />
         </div>
       ) : null}
       {loading ? <img src={spinner} alt="loading" /> : null}
-      <Cart />
+      <Booked />
     </>
   );
 }

@@ -11,17 +11,17 @@ export const LOGIN = gql`
   }
 `;
 
-export const ADD_ORDER = gql`
-  mutation addOrder($products: [ID]!) {
-    addOrder(products: $products) {
-      purchaseDate
-      products {
+export const ADD_BOOKING = gql`
+  mutation addBooking($pets: [ID]!) {
+    addBooking(pets: $pets) {
+      bookingDate
+      pets {
         _id
         name
         description
         price
         quantity
-        category {
+        petType {
           name
         }
       }

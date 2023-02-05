@@ -1,18 +1,18 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, Product, Category, Order } = require('../models');
+const { User, Pet, PetType, Booking } = require('../models');
 const { signToken } = require('../utils/auth');
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
 const resolvers = {
   Query: {
-    categories: async () => {
-      return await Category.find();
+    petTypes: async () => {
+      return await PetType.find();
     },
-    products: async (parent, { category, name }) => {
+    pets: async (parent, { petType, name }) => {
       const params = {};
 
-      if (category) {
-        params.category = category;
+      if (petType) {
+        params.petType = petType;
       }
 
       if (name) {
@@ -21,54 +21,56 @@ const resolvers = {
         };
       }
 
-      return await Product.find(params).populate('category');
+      return await Pet.find(params).populate('petType');
     },
-    product: async (parent, { _id }) => {
-      return await Product.findById(_id).populate('category');
+    pet: async (parent, { _id }) => {
+      return await Pet.findById(_id).populate('petType');
     },
     user: async (parent, args, context) => {
       if (context.user) {
         const user = await User.findById(context.user._id).populate({
-          path: 'orders.products',
-          populate: 'category'
+          path: 'bookings.pets',
+          populate: 'petType'
         });
 
-        user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
+        user.bookings.sort((a, b) => b.bookingDate - a.bookingDate);
 
         return user;
       }
 
       throw new AuthenticationError('Not logged in');
     },
-    order: async (parent, { _id }, context) => {
+    booking: async (parent, { _id }, context) => {
       if (context.user) {
         const user = await User.findById(context.user._id).populate({
-          path: 'orders.products',
-          populate: 'category'
+          path: 'bookings.pets',
+          populate: 'petType'
         });
 
-        return user.orders.id(_id);
+        return user.bookings.id(_id);
       }
 
       throw new AuthenticationError('Not logged in');
     },
     checkout: async (parent, args, context) => {
       const url = new URL(context.headers.referer).origin;
-      const order = new Order({ products: args.products });
+      const booking = new Booking({ pets: args.pets });
       const line_items = [];
 
-      const { products } = await order.populate('products');
+      const { pets } = await booking.populate('pets');
 
-      for (let i = 0; i < products.length; i++) {
-        const product = await stripe.products.create({
-          name: products[i].name,
-          description: products[i].description,
-          images: [`${url}/images/${products[i].image}`]
+      console.log({checkoutpets: pets})
+
+      for (let i = 0; i < pets.length; i++) {
+        const pet = await stripe.products.create({
+          name: pets[i].name,
+          description: pets[i].description,
+          images: [`${url}/images/${pets[i].image}`]
         });
 
         const price = await stripe.prices.create({
-          product: product.id,
-          unit_amount: products[i].price * 100,
+          product: pet.id,
+          unit_amount: pets[i].price * 100,
           currency: 'usd',
         });
 
@@ -86,6 +88,8 @@ const resolvers = {
         cancel_url: `${url}/`
       });
 
+      session
+
       return { session: session.id };
     }
   },
@@ -96,14 +100,13 @@ const resolvers = {
 
       return { token, user };
     },
-    addOrder: async (parent, { products }, context) => {
-      console.log(context);
+    addBooking: async (parent, { pets }, context) => {
       if (context.user) {
-        const order = new Order({ products });
+        const booking = new Booking({ pets });
 
-        await User.findByIdAndUpdate(context.user._id, { $push: { orders: order } });
+        await User.findByIdAndUpdate(context.user._id, { $push: { bookings: booking } });
 
-        return order;
+        return booking;
       }
 
       throw new AuthenticationError('Not logged in');
@@ -115,10 +118,10 @@ const resolvers = {
 
       throw new AuthenticationError('Not logged in');
     },
-    updateProduct: async (parent, { _id, quantity }) => {
+    updatePet: async (parent, { _id, quantity }) => {
       const decrement = Math.abs(quantity) * -1;
 
-      return await Product.findByIdAndUpdate(_id, { $inc: { quantity: decrement } }, { new: true });
+      return await Pet.findByIdAndUpdate(_id, { $inc: { quantity: decrement } }, { new: true });
     },
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });

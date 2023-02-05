@@ -10,8 +10,8 @@ function Nav() {
       return (
         <ul className="flex-row">
           <li className="mx-1">
-            <Link to="/orderHistory">
-              Order History
+            <Link to="/bookingHistory">
+              Booking History
             </Link>
           </li>
           <li className="mx-1">
@@ -25,13 +25,13 @@ function Nav() {
     } else {
       return (
         <ul className="flex-row">
-          <li className="mx-1">
+          <li className="mx-1" style={{ listStyleType: 'none' }}>
             <Link to="/signup">
               Signup
             </Link>
           </li>
           <li className="mx-1">
-            <Link to="/login">
+            <Link to="/login" style={{ listStyleType: 'none' }}>
               Login
             </Link>
           </li>

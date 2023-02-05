@@ -1,5 +1,5 @@
 :root {
-  --primary: #232F3E;
+  --primary: rgb(129, 111, 145);
   --secondary: #F3A847;
   --tertiary: #B12704;
   --light: #fafafa;
@@ -207,7 +207,7 @@ input:focus {
   max-height: 36px;
 }
 
-.category-button {
+.petType-button {
   min-width: 100px;
 }
 

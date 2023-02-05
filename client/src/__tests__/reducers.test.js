@@ -1,140 +1,140 @@
 import { reducer } from '../utils/reducers';
 import {
-  UPDATE_PRODUCTS,
-  ADD_TO_CART,
-  UPDATE_CART_QUANTITY,
-  REMOVE_FROM_CART,
-  ADD_MULTIPLE_TO_CART,
-  UPDATE_CATEGORIES,
-  UPDATE_CURRENT_CATEGORY,
-  CLEAR_CART,
-  TOGGLE_CART
+  UPDATE_PETS,
+  ADD_TO_BOOKED,
+  UPDATE_BOOKED_QUANTITY,
+  REMOVE_FROM_BOOKED,
+  ADD_MULTIPLE_TO_BOOKED,
+  UPDATE_PETTYPES,
+  UPDATE_CURRENT_PETTYPE,
+  CLEAR_BOOKED,
+  TOGGLE_BOOKED
 } from '../utils/actions';
 
 const initialState = {
-  products: [],
-  cart: [
+  pets: [],
+  booked: [
     {
       _id: '1',
       name: 'Soup',
-      purchaseQuantity: 1
+      bookQuantity: 1
     },
     {
       _id: '2',
       name: 'Bread',
-      purchaseQuantity: 2
+      bookQuantity: 2
     }
   ],
-  cartOpen: false,
-  categories: [{ name: 'Food' }],
-  currentCategory: '1',
+  bookedOpen: false,
+  petTypes: [{ name: 'Food' }],
+  currentPetType: '1',
 };
 
-test('UPDATE_PRODUCTS', () => {
+test('UPDATE_PETS', () => {
   let newState = reducer(initialState, {
-    type: UPDATE_PRODUCTS,
-    products: [{}, {}]
+    type: UPDATE_PETS,
+    pets: [{}, {}]
   });
 
-  expect(newState.products.length).toBe(2);
-  expect(initialState.products.length).toBe(0);
+  expect(newState.pets.length).toBe(2);
+  expect(initialState.pets.length).toBe(0);
 });
 
-test('ADD_TO_CART', () => {
+test('ADD_TO_BOOKED', () => {
   let newState = reducer(initialState, {
-    type: ADD_TO_CART,
-    product: { purchaseQuantity: 1 }
+    type: ADD_TO_BOOKED,
+    pet: { bookQuantity: 1 }
   });
 
-  expect(newState.cart.length).toBe(3);
-  expect(initialState.cart.length).toBe(2);
+  expect(newState.booked.length).toBe(3);
+  expect(initialState.booked.length).toBe(2);
 });
 
-test('UPDATE_CART_QUANTITY', () => {
+test('UPDATE_BOOKED_QUANTITY', () => {
   let newState = reducer(initialState, {
-    type: UPDATE_CART_QUANTITY,
+    type: UPDATE_BOOKED_QUANTITY,
     _id: '1',
-    purchaseQuantity: 3
+    bookQuantity: 3
   });
 
-  expect(newState.cartOpen).toBe(true);
-  expect(newState.cart[0].purchaseQuantity).toBe(3);
-  expect(newState.cart[1].purchaseQuantity).toBe(2);
-  expect(initialState.cartOpen).toBe(false);
+  expect(newState.bookedOpen).toBe(true);
+  expect(newState.booked[0].bookQuantity).toBe(3);
+  expect(newState.booked[1].bookQuantity).toBe(2);
+  expect(initialState.bookedOpen).toBe(false);
 });
 
-test('REMOVE_FROM_CART', () => {
+test('REMOVE_FROM_BOOKED', () => {
   let newState1 = reducer(initialState, {
-    type: REMOVE_FROM_CART,
+    type: REMOVE_FROM_BOOKED,
     _id: '1'
   });
 
-  expect(newState1.cartOpen).toBe(true);
-  expect(newState1.cart.length).toBe(1);
-  expect(newState1.cart[0]._id).toBe('2');
+  expect(newState1.bookedOpen).toBe(true);
+  expect(newState1.booked.length).toBe(1);
+  expect(newState1.booked[0]._id).toBe('2');
 
   let newState2 = reducer(newState1, {
-    type: REMOVE_FROM_CART,
+    type: REMOVE_FROM_BOOKED,
     _id: '2'
   });
 
-  expect(newState2.cartOpen).toBe(false);
-  expect(newState2.cart.length).toBe(0);
+  expect(newState2.bookedOpen).toBe(false);
+  expect(newState2.booked.length).toBe(0);
 
-  expect(initialState.cart.length).toBe(2);
+  expect(initialState.booked.length).toBe(2);
 });
 
-test('ADD_MULTIPLE_TO_CART', () => {
+test('ADD_MULTIPLE_TO_BOOKED', () => {
   let newState = reducer(initialState, {
-    type: ADD_MULTIPLE_TO_CART,
-    products: [{}, {}]
+    type: ADD_MULTIPLE_TO_BOOKED,
+    pets: [{}, {}]
   });
 
-  expect(newState.cart.length).toBe(4);
-  expect(initialState.cart.length).toBe(2);
+  expect(newState.booked.length).toBe(4);
+  expect(initialState.booked.length).toBe(2);
 });
 
-test('UPDATE_CATEGORIES', () => {
+test('UPDATE_PETTYPES', () => {
   let newState = reducer(initialState, {
-    type: UPDATE_CATEGORIES,
-    categories: [{}, {}]
+    type: UPDATE_PETTYPES,
+    petTypes: [{}, {}]
   });
 
-  expect(newState.categories.length).toBe(2);
-  expect(initialState.categories.length).toBe(1);
+  expect(newState.petTypes.length).toBe(2);
+  expect(initialState.petTypes.length).toBe(1);
 });
 
-test('UPDATE_CURRENT_CATEGORY', () => {
+test('UPDATE_CURRENT_PETTYPE', () => {
   let newState = reducer(initialState, {
-    type: UPDATE_CURRENT_CATEGORY,
-    currentCategory: '2'
+    type: UPDATE_CURRENT_PETTYPE,
+    currentPetType: '2'
   });
 
-  expect(newState.currentCategory).toBe('2');
-  expect(initialState.currentCategory).toBe('1');
+  expect(newState.currentPetType).toBe('2');
+  expect(initialState.currentPetType).toBe('1');
 });
 
-test('CLEAR_CART', () => {
+test('CLEAR_BOOKED', () => {
   let newState = reducer(initialState, {
-    type: CLEAR_CART
+    type: CLEAR_BOOKED
   });
 
-  expect(newState.cartOpen).toBe(false);
-  expect(newState.cart.length).toBe(0);
-  expect(initialState.cart.length).toBe(2);
+  expect(newState.bookedOpen).toBe(false);
+  expect(newState.booked.length).toBe(0);
+  expect(initialState.booked.length).toBe(2);
 });
 
-test('TOGGLE_CART', () => {
+test('TOGGLE_BOOKED', () => {
   let newState = reducer(initialState, {
-    type: TOGGLE_CART
+    type: TOGGLE_BOOKED
   });
 
-  expect(newState.cartOpen).toBe(true);
-  expect(initialState.cartOpen).toBe(false);
+  expect(newState.bookedOpen).toBe(true);
+  expect(initialState.bookedOpen).toBe(false);
   
   let newState2 = reducer(newState, {
-    type: TOGGLE_CART
+    type: TOGGLE_BOOKED
   });
 
-  expect(newState2.cartOpen).toBe(false);
+  expect(newState2.bookedOpen).toBe(false);
 });

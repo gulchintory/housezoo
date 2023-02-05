@@ -1,98 +1,87 @@
 import { useReducer } from 'react';
 import {
-  UPDATE_PRODUCTS,
-  ADD_TO_CART,
-  UPDATE_CART_QUANTITY,
-  REMOVE_FROM_CART,
-  ADD_MULTIPLE_TO_CART,
-  UPDATE_CATEGORIES,
-  UPDATE_CURRENT_CATEGORY,
-  CLEAR_CART,
-  TOGGLE_CART,
+  UPDATE_PETS,
+  ADD_TO_BOOKED,
+  UPDATE_BOOKED_QUANTITY,
+  REMOVE_FROM_BOOKED,
+  ADD_MULTIPLE_TO_BOOKED,
+  UPDATE_PETTYPES,
+  UPDATE_CURRENT_PETTYPE,
+  CLEAR_BOOKED,
+  TOGGLE_BOOKED,
 } from './actions';
 
-// TODO: To get a better understand of how a reducer works - add comments to the various actions in the reducer
 export const reducer = (state, action) => {
   switch (action.type) {
-    // TODO: Add a comment describing the functionality of the UPDATE_PRODUCTS case
-    // Your comment here
-    case UPDATE_PRODUCTS:
+    case UPDATE_PETS:
       return {
         ...state,
-        products: [...action.products],
+        pets: [...action.pets],
       };
 
-    case ADD_TO_CART:
+    case ADD_TO_BOOKED:
       return {
         ...state,
-        cartOpen: true,
-        cart: [...state.cart, action.product],
+        bookedOpen: true,
+        booked: [...state.booked, action.pet],
       };
 
-    case ADD_MULTIPLE_TO_CART:
+    case ADD_MULTIPLE_TO_BOOKED:
       return {
         ...state,
-        cart: [...state.cart, ...action.products],
+        booked: [...state.booked, ...action.pets],
       };
-    // TODO: Add a comment describing the functionality of the UPDATE_CART_QUANTITY case
-    // Your comment here
-    case UPDATE_CART_QUANTITY:
+    case UPDATE_BOOKED_QUANTITY:
       return {
         ...state,
-        cartOpen: true,
-        cart: state.cart.map((product) => {
-          if (action._id === product._id) {
-            product.purchaseQuantity = action.purchaseQuantity;
+        bookedOpen: true,
+        booked: state.booked.map((pet) => {
+          if (action._id === pet._id) {
+            pet.bookQuantity = action.bookQuantity;
           }
-          return product;
+          return pet;
         }),
       };
-
-    // TODO: Add a comment describing the functionality of the REMOVE_FROM_CART case
-    // Your comment here
-    case REMOVE_FROM_CART:
-      let newState = state.cart.filter((product) => {
-        return product._id !== action._id;
+    case REMOVE_FROM_BOOKED:
+      let newState = state.booked.filter((pet) => {
+        return pet._id !== action._id;
       });
 
       return {
         ...state,
-        cartOpen: newState.length > 0,
-        cart: newState,
+        bookedOpen: newState.length > 0,
+        booked: newState,
       };
 
-    case CLEAR_CART:
+    case CLEAR_BOOKED:
       return {
         ...state,
-        cartOpen: false,
-        cart: [],
+        bookedOpen: false,
+        booked: [],
       };
 
-    case TOGGLE_CART:
+    case TOGGLE_BOOKED:
       return {
         ...state,
-        cartOpen: !state.cartOpen,
+        bookedOpen: !state.bookedOpen,
       };
 
-    case UPDATE_CATEGORIES:
+    case UPDATE_PETTYPES:
       return {
         ...state,
-        categories: [...action.categories],
+        petTypes: [...action.petTypes],
       };
 
-    case UPDATE_CURRENT_CATEGORY:
+    case UPDATE_CURRENT_PETTYPE:
       return {
         ...state,
-        currentCategory: action.currentCategory,
+        currentPetType: action.currentPetType,
       };
-
-    // TODO: Add a comment describing what the default case is for
-    // Your comment here
     default:
       return state;
   }
 };
 
-export function useProductReducer(initialState) {
+export function usePetReducer(initialState) {
   return useReducer(reducer, initialState);
 }

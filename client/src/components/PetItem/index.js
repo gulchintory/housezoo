@@ -2,10 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { pluralize } from "../../utils/helpers"
 import { useStoreContext } from "../../utils/GlobalState";
-import { ADD_TO_CART, UPDATE_CART_QUANTITY } from "../../utils/actions";
+import { ADD_TO_BOOKED, UPDATE_BOOKED_QUANTITY } from "../../utils/actions";
 import { idbPromise } from "../../utils/helpers";
 
-function ProductItem(item) {
+function PetItem(item) {
   const [state, dispatch] = useStoreContext();
 
   const {
@@ -16,32 +16,32 @@ function ProductItem(item) {
     quantity
   } = item;
 
-  const { cart } = state
+  const { booked } = state
 
-  const addToCart = () => {
-    const itemInCart = cart.find((cartItem) => cartItem._id === _id)
-    if (itemInCart) {
+  const addToBooked = () => {
+    const itemInBooked = booked.find((bookedItem) => bookedItem._id === _id)
+    if (itemInBooked) {
       dispatch({
-        type: UPDATE_CART_QUANTITY,
+        type: UPDATE_BOOKED_QUANTITY,
         _id: _id,
-        purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1
+        bookQuantity: parseInt(itemInBooked.bookQuantity) + 1
       });
-      idbPromise('cart', 'put', {
-        ...itemInCart,
-        purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1
+      idbPromise('booked', 'put', {
+        ...itemInBooked,
+        bookQuantity: parseInt(itemInBooked.bookQuantity) + 1
       });
     } else {
       dispatch({
-        type: ADD_TO_CART,
-        product: { ...item, purchaseQuantity: 1 }
+        type: ADD_TO_BOOKED,
+        pet: { ...item, bookQuantity: 1 }
       });
-      idbPromise('cart', 'put', { ...item, purchaseQuantity: 1 });
+      idbPromise('booked', 'put', { ...item, bookQuantity: 1 });
     }
   }
 
   return (
     <div className="card px-1 py-1">
-      <Link to={`/products/${_id}`}>
+      <Link to={`/pets/${_id}`}>
         <img
           alt={name}
           src={`/images/${image}`}
@@ -52,9 +52,9 @@ function ProductItem(item) {
         <div>{quantity} {pluralize("house", quantity)} available</div>
         <span>${price}</span>
       </div>
-      <button onClick={addToCart}>🐕  Get a ticket</button>
+      <button onClick={addToBooked}>🐕  Get a ticket</button>
     </div>
   );
 }
 
-export default ProductItem;
+export default PetItem;

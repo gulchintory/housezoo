@@ -2,19 +2,19 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const orderSchema = new Schema({
-  purchaseDate: {
+const bookingSchema = new Schema({
+  bookingDate: {
     type: Date,
     default: Date.now
   },
-  products: [
+  pets: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Product'
+      ref: 'Pet'
     }
   ]
 });
 
-const Order = mongoose.model('Order', orderSchema);
+const Booking = mongoose.model('Booking', bookingSchema);
 
-module.exports = Order;
+module.exports = Booking;

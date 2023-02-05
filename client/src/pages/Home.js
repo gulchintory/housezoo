@@ -1,16 +1,16 @@
 import React from "react";
-import ProductList from "../components/ProductList";
-import CategoryMenu from "../components/CategoryMenu";
-import Cart from "../components/Cart";
+import PetList from "../components/PetList";
+import PetTypeMenu from "../components/PetTypeMenu";
+import Booked from "../components/Booked";
 import hero from '../assets/hero.png';
 
 const Home = () => {
   return (
     <div className="container">
       <img src={hero} alt="hero" />
-      <CategoryMenu />
-      <ProductList />
-      <Cart />
+      <PetTypeMenu />
+      <PetList />
+      <Booked />
     </div>
   );
 };
