@@ -12,7 +12,7 @@ function Success() {
   useEffect(() => {
     async function saveBooking() {
       const booked = await idbPromise('booked', 'get');
-      console.log({booked})
+      console.log(booked)
       const pets = booked.map((item) => item._id);
 
       if (pets.length) {

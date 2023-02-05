@@ -59,7 +59,7 @@ const resolvers = {
 
       const { pets } = await booking.populate('pets');
 
-      console.log({checkoutpets: pets})
+      console.log(pets)
 
       for (let i = 0; i < pets.length; i++) {
         const pet = await stripe.products.create({
