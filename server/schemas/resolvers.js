@@ -88,8 +88,6 @@ const resolvers = {
         cancel_url: `${url}/`
       });
 
-      session
-
       return { session: session.id };
     }
   },

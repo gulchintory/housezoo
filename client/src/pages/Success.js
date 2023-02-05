@@ -7,6 +7,8 @@ import { idbPromise } from '../utils/helpers';
 function Success() {
   const [addBooking] = useMutation(ADD_BOOKING);
 
+  console.log('gulcins successs page')
+
   useEffect(() => {
     async function saveBooking() {
       const booked = await idbPromise('booked', 'get');
